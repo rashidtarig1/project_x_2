@@ -42,12 +42,12 @@ class _SplashScreenState extends State<SplashScreen>
     _glowController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
-      lowerBound: 0.9,
-      upperBound: 1.1,
     )..repeat(reverse: true);
-    _glowPulse = CurvedAnimation(
-      parent: _glowController,
-      curve: Curves.easeInOut,
+    _glowPulse = Tween<double>(begin: 0.9, end: 1.1).animate(
+      CurvedAnimation(
+        parent: _glowController,
+        curve: Curves.easeInOut,
+      ),
     );
 
     // Kick off staged animations.
