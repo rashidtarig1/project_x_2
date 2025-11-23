@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
-import 'splash_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'src/core/theme/app_theme.dart';
+import 'src/presentation/routes/app_router.dart';
+
+/// Entry point for the Talala booking assistant.
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: TalalaApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// Root widget wiring theming and routing.
+class TalalaApp extends ConsumerWidget {
+  const TalalaApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
     return MaterialApp(
       title: 'Talala',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF5A2D82),
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-        fontFamily: 'Roboto',
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF5A2D82),
-          brightness: Brightness.dark,
-        ),
-        useMaterial3: true,
-        fontFamily: 'Roboto',
-      ),
-      home: const SplashScreen(),
+      theme: AppTheme.light,
+      onGenerateRoute: router.onGenerateRoute,
+      initialRoute: AppRouter.home,
     );
   }
 }
